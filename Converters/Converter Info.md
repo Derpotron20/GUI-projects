@@ -2,10 +2,15 @@
  My GUI projects that I made using tkinter mostly
 
 
-There are a couple of different ones, but these GUI projects were all made using tkinter and/or customtkinter.
+In this folder there a couple of converters, for the temperature converter it only works with farenheit and celsius,
+going both ways, however if you want me to I could add kelvin to it.
 
-In here I've got an activity monitor, temperature and time converter, but if you can think of more things that I could make
-using tkinter, please tell me and I'll see if I can do it. All such projects will be uploaded onto this GitHub page for
-anyone to read and copy
+For the time converter, it doesn't return decimal places, instead it returns the amount of bigger units and then the
+remainder of the smaller units that it was converting from.
+
+The arrow image used for the time converter does make it a bit more annoying to load up, but I believe it makes it look
+better, if you would like to replace it with a label to make it easier to use, go for it.
+
+If you want to change any of these up, go for it. I was also thinking of making a video on how to make these.
 
 Have fun
