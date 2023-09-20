@@ -45,8 +45,7 @@ def STR_values():
     total_GB = round((psutil.disk_usage('/')[0]/1000000000), 2)
     used_GB = round((psutil.disk_usage('/')[1]/1000000000), 2)
     free_GB = round((psutil.disk_usage('/')[2]/1000000000), 2)
-    percent = psutil.disk_usage('/')[3]
-    STRinfo.config(text=f"RAM Total (GB): {total_GB}\nRAM Used (GB) {used_GB}\nRAM Free (GB) {free_GB}")
+    STRinfo.config(text=f"STR Total (GB): {total_GB}\nSTR Used (GB) {used_GB}\nSTR Free (GB) {free_GB}")
 
 
 
@@ -64,20 +63,8 @@ def set_value():
     if RAMinfo_check == True:
         RAMinfo.configure(text=f"RAM Total (GB): {total_gb}\nRAM Available (GB) {available_gb}\nRAM Used (GB) {used_gb}\nRAM Free (GB) {free_gb}")
     elif STRinfo_check == True:
-        STRinfo.configure(text=f"RAM Total (GB): {total_GB}\nRAM Used (GB) {used_GB}\nRAM Free (GB) {free_GB}")
+        STRinfo.configure(text=f"STR Total (GB): {total_GB}\nSTR Used (GB) {used_GB}\nSTR Free (GB) {free_GB}")
     root.after(500, set_value)
-
-def set_value1():
-    global newWindow1
-    display_usage(psutil.cpu_percent(), psutil.virtual_memory().percent)
-    global RAMinfo, RAMinfo_check
-    total_gb = round((psutil.virtual_memory()[0]/1000000000), 2)
-    available_gb = round((psutil.virtual_memory()[1]/1000000000), 2)
-    used_gb = round((psutil.virtual_memory()[3]/1000000000), 2)
-    free_gb = round((psutil.virtual_memory()[4]/1000000000), 2)
-    if RAMinfo_check == True:
-        RAMinfo.configure(text=f"RAM Total (GB): {total_gb}\nRAM Available (GB) {available_gb}\nRAM Used (GB) {used_gb}\nRAM Free (GB) {free_gb}")
-    newWindow1.after(500, set_value)
 
 #Deleting inside current window
 
