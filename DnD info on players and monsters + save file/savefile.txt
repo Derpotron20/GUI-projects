@@ -1,0 +1,2 @@
+{"Jeff": [3, "pawn"], "Geoff": [3, "pawn"], "Bob": [3, "pawn"]}
+{"Ghoul": [10, "knight", 30]}
