@@ -1,4 +1,9 @@
 import json
+import customtkinter as ctk
+
+root = ctk.CTk()
+root.title("DnD Info Storer and Acessor")
+root.geometry("550x400")
 
 players = {}
 monsters = {}
@@ -48,6 +53,20 @@ def load():
 
 
 # 'first_line' now contains the content of the first line from the file
+summaryFormat1 = ctk.CTkLabel(root, text="Player           Initiative            Piece\n--------------- ----------- ----------------")
+summaryFormat1.place(x=250, y=10)
+summaryFormat2 = ctk.CTkLabel(root, text="Monster          Initiative            Piece               Health\n--------------- ----------- ---------------- ---------")
+summaryFormat2.place(x=220, y=190)
+summary = ctk.CTkLabel(root, text="im here")
+summary.place(x=220, y=30)
+
+def update_summary():
+    global summary
+    for name in players:
+        initiative = players[name][0]
+        piece = players[name][1]
+        summary.configure(text=f'{name:15} {initiative:11} {piece:>16}')
+    root
 
 def print_summary():
     print("Player           Initiative            Piece")
@@ -63,3 +82,7 @@ def print_summary():
         piece = monsters[name][1]
         health = monsters[name][2]
         print(f'{name:15} {initiative:11} {piece:>16} {health:15}')
+
+update_summary()
+
+root.mainloop()
