@@ -47,7 +47,9 @@ def delete_monster():
         del monsters[monster]
 
 
-def change_monster_health(name, new_amount):
+def change_monster_health():
+    name = change_monster_health_nameent.get()
+    new_amount = change_monster_healthent.get()
     if name not in monsters:
         raise ValueError("Monster does not exist")
     old_amount = monsters[name][2]
@@ -97,7 +99,7 @@ def update_summary():
 
 
 def create_window():
-    global new_monster_name, new_monster_initiative, new_monster_piece, new_monster_health,new_player_name, new_player_initiative, new_player_piece, dlt_monster, dlt_player
+    global new_monster_name, new_monster_initiative, new_monster_piece, new_monster_health,new_player_name, new_player_initiative, new_player_piece, dlt_monster, dlt_player, change_monster_healthent, change_monster_healthent, change_monster_health_nameent
     summaryFormat1 = ctk.CTkLabel(root, text="Player           Initiative          Piece\n--------------- ----------- ----------------")
     summaryFormat1.place(x=250, y=10)
     summaryFormat2 = ctk.CTkLabel(root, text="Monster          Initiative            Piece               Health\n--------------- ----------- ---------------- ---------")
@@ -158,7 +160,7 @@ def create_window():
 
 
     save = ctk.CTkButton(root, text="Save", command=saveAndExit, font=('Arial', 14))
-    save.place(x=565, y=320)
+    save.place(x=565, y=510)
 
 
 
@@ -186,6 +188,21 @@ def create_window():
 
     new_monster_health = ctk.CTkEntry(root, width=100, font=('Airal', 14))
     new_monster_health.place(x=8, y=532)
+
+    change_monster_healthlbl = ctk.CTkLabel(root, text="Enter New Monster Health", font=('Arial', 14))
+    change_monster_healthlbl.place(x=565, y=320)
+
+    change_monster_healthent = ctk.CTkEntry(root, width=100, font=('Airal', 14))
+    change_monster_healthent.place(x=565, y=348)
+    
+    change_monster_health_namelbl = ctk.CTkLabel(root, text="Enter Monster Name", font=('Arial', 14))
+    change_monster_health_namelbl.place(x=565, y=390)
+
+    change_monster_health_nameent = ctk.CTkEntry(root, width=100, font=('Airal', 14))
+    change_monster_health_nameent.place(x=565, y=418)
+    
+    change_monster_healthbtn = ctk.CTkButton(root, text="Change Monster Health", command=change_monster_health, width=100, font=('Airal', 15))
+    change_monster_healthbtn.place(x=565, y=450)
 
     new_monster = ctk.CTkButton(root, text="Add New Monster", command=add_monster, width=100, font=('Airal', 15))
     new_monster.place(x=8, y=574)
