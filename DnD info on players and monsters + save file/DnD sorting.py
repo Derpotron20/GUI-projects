@@ -11,7 +11,7 @@ monsters = {}
 def add_player():
     global new_player_name, new_player_initiative, new_player_piece
     name = new_player_name.get()
-    initiative = int(new_player_initiative.get())
+    initiative = new_player_initiative.get()
     piece = new_player_piece.get()
     if name in players or len(name) == 0 or len(initiative) == 0 or len(piece) == 0:
         raise ValueError("Player exists")
@@ -30,12 +30,13 @@ def delete_player():
 def add_monster():
     global new_monster_name, new_monster_initiative, new_monster_piece, new_monster_health
     name = new_monster_name.get()
-    initiative = int(new_monster_initiative.get())
+    initiative = new_monster_initiative.get()
     piece = new_monster_piece.get()
     health = new_monster_health.get()
     if name in monsters or len(name) == 0 or len(initiative) == 0 or len(piece) == 0 or len(health) == 0:
         raise ValueError("Monster exists")
     monsters[name] = [initiative, piece, health]
+    print(monsters[name])
 
 def delete_monster():
     global dlt_monster
@@ -90,7 +91,7 @@ def update_summary():
         initiative = monsters[name][0]
         piece = monsters[name][1]
         health = monsters[name][2]
-        label = ctk.CTkLabel(root, text=f'{name:15} {initiative:11} {piece:>16} {health:15}')
+        label = ctk.CTkLabel(root, text=f'{name:15} {initiative:11} {piece:>18} {health:15}')
         label.place(x=dx, y=dy)
     create_window()
 
@@ -186,7 +187,7 @@ def create_window():
     new_monster_health = ctk.CTkEntry(root, width=100, font=('Airal', 14))
     new_monster_health.place(x=8, y=532)
 
-    new_monster = ctk.CTkButton(root, text="Add New Monster", command=add_player, width=100, font=('Airal', 15))
+    new_monster = ctk.CTkButton(root, text="Add New Monster", command=add_monster, width=100, font=('Airal', 15))
     new_monster.place(x=8, y=574)
 
 create_window()
