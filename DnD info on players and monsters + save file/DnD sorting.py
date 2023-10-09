@@ -16,6 +16,7 @@ def add_player():
     if name in players or len(name) == 0 or len(initiative) == 0 or len(piece) == 0:
         raise ValueError("Player exists")
     players[name] = [initiative, piece]
+    update_summary()
 
 def delete_player():
     global dlt_player
@@ -24,6 +25,7 @@ def delete_player():
         raise ValueError("Player doesn't exist")
     else:
         del players[player]
+    update_summary()
 
 
 
@@ -36,7 +38,7 @@ def add_monster():
     if name in monsters or len(name) == 0 or len(initiative) == 0 or len(piece) == 0 or len(health) == 0:
         raise ValueError("Monster exists")
     monsters[name] = [initiative, piece, health]
-    print(monsters[name])
+    update_summary()
 
 def delete_monster():
     global dlt_monster
@@ -45,6 +47,7 @@ def delete_monster():
         raise ValueError("Monster doesn't exist")
     else:
         del monsters[monster]
+    update_summary()
 
 
 def change_monster_health():
@@ -56,8 +59,9 @@ def change_monster_health():
     if new_amount > old_amount:
         raise ValueError("Monster killed, please get rid of monster")
     monsters[name][2] = new_amount
+    update_summary()
 
-def saveAndExit():
+def save_dircts():
     global players, monsters
     with open("savefile.txt", "w") as fp:
         json.dump(players, fp)  # encode dict into JSON
@@ -105,10 +109,6 @@ def create_window():
     summaryFormat2 = ctk.CTkLabel(root, text="Monster          Initiative            Piece               Health\n--------------- ----------- ---------------- ---------")
     summaryFormat2.place(x=220, y=300)
 
-
-
-    reloadSummary = ctk.CTkButton(root, text="Relod Summary", command=update_summary)
-    reloadSummary.place(x=555, y=15)
 
     delete_player_lbl = ctk.CTkLabel(root, text="Enter Player Name\nfor deletion             ", font=('Arial', 14))
     delete_player_lbl.place(x=565, y=86)
@@ -159,7 +159,7 @@ def create_window():
 
 
 
-    save = ctk.CTkButton(root, text="Save", command=saveAndExit, font=('Arial', 14))
+    save = ctk.CTkButton(root, text="Save", command=save_dircts, font=('Arial', 14))
     save.place(x=565, y=510)
 
 
