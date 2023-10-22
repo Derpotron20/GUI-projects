@@ -8,8 +8,6 @@ root = ctk.CTk()
 CPUbar = ctk.CTkProgressBar(root, width=100, orientation="horizontal")
 RAMbar = ctk.CTkProgressBar(root, width=100, orientation="horizontal")
 STRbar = ctk.CTkProgressBar(root, width=100, orientation="horizontal")
-CPUbar.place(x=35, y=55)
-RAMbar.place(x=200, y=55)
 CPUlbl = ctk.CTkLabel(root, text="")
 RAMbtn = ctk.CTkLabel(root, text="")
 menubar = ctk.CTkLabel(root, text="")
@@ -29,24 +27,6 @@ def display_usage(cpu_usage, mem_usage, str_usage):
     CPUbar.set(cpu_percent)
     RAMbar.set(mem_percent)
     STRbar.set(str_percent)
-    
-
-
-def RAM_values():
-    global RAMinfo
-    total_gb = round((psutil.virtual_memory()[0]/1000000000), 2)
-    available_gb = round((psutil.virtual_memory()[1]/1000000000), 2)
-    used_gb = round((psutil.virtual_memory()[3]/1000000000), 2)
-    free_gb = round((psutil.virtual_memory()[4]/1000000000), 2)
-    RAMinfo.config(text=f"RAM Total (GB): {total_gb}\nRAM Available (GB) {available_gb}\nRAM Used (GB) {used_gb}\nRAM Free (GB) {free_gb}")
-
-def STR_values():
-    global STRinfo
-    total_GB = round((psutil.disk_usage('/')[0]/1000000000), 2)
-    used_GB = round((psutil.disk_usage('/')[1]/1000000000), 2)
-    free_GB = round((psutil.disk_usage('/')[2]/1000000000), 2)
-    STRinfo.config(text=f"STR Total (GB): {total_GB}\nSTR Used (GB) {used_GB}\nSTR Free (GB) {free_GB}")
-
 
 
 def set_value():
