@@ -1,219 +1,203 @@
-import tkinter as tk
+# Importing Everything
 import customtkinter as ctk
 import psutil
 
+# Creates a New Window under the name "root"
 root = ctk.CTk()
 
-
+# Defines the progress bars early so that new ones are made each time root_frame_create is called
 CPUbar = ctk.CTkProgressBar(root, width=100, orientation="horizontal")
 RAMbar = ctk.CTkProgressBar(root, width=100, orientation="horizontal")
 STRbar = ctk.CTkProgressBar(root, width=100, orientation="horizontal")
-CPUlbl = ctk.CTkLabel(root, text="")
-RAMbtn = ctk.CTkLabel(root, text="")
-menubar = ctk.CTkLabel(root, text="")
+
+# Sets what the labels are initially, so that they can be changed later more easily
 RAMinfo = ctk.CTkLabel(root, text="")
+STRinfo = ctk.CTkLabel(root, text="")
+# Two variables for chcking if we should show data about RAM and storage
 RAMinfo_check = False
 STRinfo_check = False
 
-
-
 #Changing the progress bar's values
-def display_usage(cpu_usage, mem_usage, str_usage):
-    cpu_percent = (cpu_usage / 100.0)
-    mem_percent = (mem_usage / 100.0)
-    str_percent = (str_usage/ 100.0)
+def display_usage():
+    # Sets the values to percentages
+    cpu_percent = (psutil.cpu_percent() / 100.0)
+    mem_percent = (psutil.virtual_memory().percent / 100.0)
+    str_percent = (psutil.disk_usage('/')[3] / 100.0)
 
-
+    # Sets the progress bars outputs to the percentages made above.
     CPUbar.set(cpu_percent)
     RAMbar.set(mem_percent)
     STRbar.set(str_percent)
 
 
 def set_value():
-    display_usage(psutil.cpu_percent(), psutil.virtual_memory().percent, psutil.disk_usage('/')[3])
-    global RAMinfo, RAMinfo_check
+    # Changes what the progress bars display
+    display_usage()
+
+    # Gains access to the RAM and storage information label, and if it needs to be displayed
+    global RAMinfo, RAMinfo_check, STRinfo, STRinfo_check
+
+    # Defines what will be shown for storage
+    total_GB = round((psutil.disk_usage('/')[0]/1000000000), 2)
+    used_GB = round((psutil.disk_usage('/')[1]/1000000000), 2)
+    free_GB = round((psutil.disk_usage('/')[2]/1000000000), 2)
+
+    # Defines what will be shown for RAM
     total_gb = round((psutil.virtual_memory()[0]/1000000000), 2)
     available_gb = round((psutil.virtual_memory()[1]/1000000000), 2)
     used_gb = round((psutil.virtual_memory()[3]/1000000000), 2)
     free_gb = round((psutil.virtual_memory()[4]/1000000000), 2)
-    global STRinfo, STRinfo_check
-    total_GB = round((psutil.disk_usage('/')[0]/1000000000), 2)
-    used_GB = round((psutil.disk_usage('/')[1]/1000000000), 2)
-    free_GB = round((psutil.disk_usage('/')[2]/1000000000), 2)
+    # Changes what is said by the RAM information label if it needs to
     if RAMinfo_check == True:
         RAMinfo.configure(text=f"RAM Total (GB): {total_gb}\nRAM Available (GB) {available_gb}\nRAM Used (GB) {used_gb}\nRAM Free (GB) {free_gb}")
+    
+    # Changes what is said by the storage information label if it needs to
     elif STRinfo_check == True:
         STRinfo.configure(text=f"STR Total (GB): {total_GB}\nSTR Used (GB) {used_GB}\nSTR Free (GB) {free_GB}")
+    
+    # Re-executes this function every 0.5 seconds
     root.after(500, set_value)
 
-#Deleting inside current window
 
 def root_frame_delete(btn_pressed):
-    global CPUbar, CPUlbl, RAMbar, RAMbtn, menubar, STRbtn
+    global CPUlbl, RAMbtn, STRbtn
+
+    # Destroyes all of these elements
     CPUlbl.destroy()
     RAMbtn.destroy()
     STRbtn.destroy()
-    menubar.destroy()
+
+    # Chooses which new frame to create
     if btn_pressed == "RAM":
         RAM_frame_create()
     elif btn_pressed == "STR":
         STR_frame_create()
 
+
+# Creates the RAM window to show information about the current RAM usage
+def RAM_frame_create():
+    # Acesses all of the elements needed to be changed, but also allows acces to all elements that can be changed
+    global RAMlabel, RAMbar, RAMbackbtn, CPUbar, STRbar, RAMinfo, RAMinfo_check
+
+    # Changes window title
+    root.title("RAM Info")
+
+    # Changes window size and shape
+    root.geometry("300x200")
+
+    # Creates a Label to show it's the RAM tab
+    RAMlabel = ctk.CTkLabel(root, text="RAM")
+    RAMlabel.pack(pady=10)
+
+    # Allows the RAM info to be shown on the RAM info label
+    RAMinfo_check = True
+
+    # Decides where the bar will be shown
+    RAMbar.place(x=100, y=45)
+
+    # Moves the other bars off screen
+    STRbar.place(x=10000, y=10000)
+    CPUbar.place(x=10000, y=10000)
+
+
+    # Creates a back button
+    RAMbackbtn = ctk.CTkButton(root, text="Back", font=('Arial', 10), command=RAM_frame_delete, height=24, width=25, fg_color="black")
+    RAMbackbtn.place(x=5, y=5)
+
+    # Places where the RAM info will be shown
+    RAMinfo = ctk.CTkLabel(root, text="")
+    RAMinfo.place(x=80, y=60)
+
+    set_value()
+
+    
+
+# Creates the Storage window to show information about the current storage usage
+def STR_frame_create():
+    # Acesses all of the elements needed to be changed, but also allows acces to all elements that can be changed
+    global STRlabel, STRbar, STRbackbtn, CPUbar, RAMbar, STRinfo, STRinfo_check
+
+    # Changes window title
+    root.title("Storage Info")
+
+    # Changes window size and shape
+    root.geometry("300x200")
+
+    # Creates a Label to show it's the storage tab
+    STRlabel = ctk.CTkLabel(root, text="Storage")
+    STRlabel.pack(pady=10)
+
+    # Allows the storage info to be shown on the storage info label
+    STRinfo_check = True
+
+    # Decides where the bar will be shown
+    STRbar.place(x=100, y=45)
+
+    # Moves the other bars off screen
+    RAMbar.place(x=10000, y=10000)
+    CPUbar.place(x=10000, y=10000)
+
+    # Creates a back button
+    STRbackbtn = ctk.CTkButton(root, text="Back", font=('Arial', 10), command=STR_frame_delete, height=24, width=25, fg_color="black")
+    STRbackbtn.place(x=5, y=5)
+
+    # Places where the RAM info will be shown
+    STRinfo = ctk.CTkLabel(root, text="")
+    STRinfo.place(x=80, y=60)
+
+    set_value()
+
+
+# Creates a function to delete the widgets of the RAM window
 def RAM_frame_delete():
     global RAMinfo_check
     RAMinfo_check = False
     RAMlabel.destroy()
-    backbtn2.destroy()
+    RAMbackbtn.destroy()
     RAMinfo.destroy()
     root_frame_create()
 
+# Creates a function to delete the widgets of the storage window
 def STR_frame_delete():
     global STRinfo_check
     STRinfo_check = False
     STRlabel.destroy()
-    backbtn3.destroy()
+    STRbackbtn.destroy()
     STRinfo.destroy()
     root_frame_create()
 
 
-
-def RAM_frame_create():
-    global RAMlabel, RAMbar, backbtn2, CPUbar, RAMinfo, RAMinfo_check
-    root.title("RAM Info")
-    root.geometry("300x200")
-
-    RAMlabel = ctk.CTkLabel(root, text="RAM")
-    RAMlabel.pack(pady=10)
-
-    RAMinfo_check = True
-
-    RAMinfo = ctk.CTkLabel(root, text="")
-    RAMinfo.place(x=80, y=60)
-
-    backbtn2 = ctk.CTkButton(root, text="Back", font=('Arial', 10), command=RAM_frame_delete, height=24, width=25, fg_color="black")
-    backbtn2.place(x=5, y=5)
-
-    RAMbar.place(x=100, y=45)
-    STRbar.place(x=10000, y=10000)
-    CPUbar.place(x=10000, y=10000)
-
-    RAMmenubar = tk.Menu(root)
-    filemenu = tk.Menu(RAMmenubar, tearoff=0)
-    filemenu.add_command(label="Exit", command=root.quit)
-    RAMmenubar.add_cascade(label="File", menu=filemenu)
-
-    window = tk.Menu(RAMmenubar, tearoff=0)
-    window.add_command(label="Option Page Current Window", command=RAM_frame_delete)
-    RAMmenubar.add_cascade(label="Information", menu=window)
-
-    root.config(menu=RAMmenubar)
-
-def STR_frame_create():
-    global STRlabel, STRbar, backbtn3, CPUbar, STRinfo, STRinfo_check, RAMbar
-    root.title("STR Info")
-    root.geometry("300x200")
-
-    STRlabel = ctk.CTkLabel(root, text="Storage")
-    STRlabel.pack(pady=10)
-
-    STRinfo_check = True
-
-    STRinfo.place(x=80, y=60)
-
-    backbtn3 = ctk.CTkButton(root, text="Back", font=('Arial', 10), command=STR_frame_delete, height=24, width=25, fg_color="black")
-    backbtn3.place(x=5, y=5)
-
-    STRbar.place(x=100, y=45)
-    RAMbar.place(x=10000, y=10000)
-    CPUbar.place(x=10000, y=10000)
-
-    STRmenubar = tk.Menu(root)
-    filemenu = tk.Menu(STRmenubar, tearoff=0)
-    filemenu.add_command(label="Exit", command=root.quit)
-    STRmenubar.add_cascade(label="File", menu=filemenu)
-
-    window = tk.Menu(STRmenubar, tearoff=0)
-    window.add_command(label="Option Page Current Window", command=STR_frame_delete)
-    STRmenubar.add_cascade(label="Information", menu=window)
-
-    root.config(menu=STRmenubar)
-
-
-#Opening the RAM seperate window
-def openRAMWindow():
-    newWindow = ctk.CTkToplevel(root)
-    newWindow.title("RAM Info")
-    newWindow.geometry("300x200")
-    global RAMlabel, CPUbar, RAMinfo, RAMinfo_check
-
-    RAMlabel = ctk.CTkLabel(newWindow, text="RAM")
-    RAMlabel.place(x=130, y=8)
-
-    RAMinfo_check = True
-
-    RAMinfo.place(x=80, y=60)
-
-    RAMbar = ctk.CTkProgressBar(newWindow, width=100, orientation="horizontal")
-    RAMbar.place(x=100, y=45)
-
-    set_value()
-
-def openSTRwindow():
-
-    newWindow = ctk.CTkToplevel(root)
-    newWindow.title("Storage Info")
-    newWindow.geometry("300x200")
-    global STRlabel, CPUbar, STRbar, STRinfo, STRinfo_check
-
-    STRlabel = ctk.CTkLabel(newWindow, text="STR")
-    STRlabel.place(x=130, y=8)
-
-    STRinfo_check = True
-
-    STRinfo.place(x=80, y=60)
-
-    STRbar = ctk.CTkProgressBar(newWindow, width=100, orientation="horizontal")
-    STRbar.place(x=100, y=45)
-
-    set_value()
-
+# Function to allow repeatedly creating the home page
 def root_frame_create():
+    # Allows other functions to access everything inside this function
+    global CPUbar, RAMbar, STRbar, CPUlbl, RAMbtn, STRbtn
+
+    # Change the window title
     root.title("Activity Monitor")
+
+    # changes window size
     root.geometry("335x180")
-    global CPUbar, CPUlbl, RAMbar, RAMbtn, menubar, btn_pressed, STRbar, STRbtn
-    btn_pressed = None
-    menubar = tk.Menu(root)
-    filemenu = tk.Menu(menubar, tearoff=0)
-    filemenu.add_command(label="Exit", command=root.quit)
-    menubar.add_cascade(label="File", menu=filemenu)
 
-    window = tk.Menu(menubar, tearoff=0)
-    window.add_command(label="RAM info current window", command=lambda: root_frame_delete("RAM"))
-    window.add_command(label="Storage info current window", command=lambda: root_frame_delete("STR"))
-    window.add_separator()
-    window.add_command(label="RAM info new window", command=openRAMWindow)
-    window.add_command(label="Storage info new window", command=openSTRwindow)
-    menubar.add_cascade(label="Information", menu=window)
+    # Creates and places mutliple progress bars
+    
+    CPUbar.place(x=35, y=55)
+    RAMbar.place(x=200, y=55)
+    STRbar.place(x=35, y=145)
 
-    root.config(menu=menubar)
-
-    #RAM and CPU buttons
+    # Creates and places buttons to access other windows, as well as the label for CPU
     CPUlbl = ctk.CTkLabel(root, text="CPU")
     CPUlbl.place(x=70, y=10)
+
+    # When these buttons are pressed, it deletes the elements off the screen, and says which new screen to make
     RAMbtn = ctk.CTkButton(root, text="RAM", command=lambda: root_frame_delete("RAM"), height=35, width=150, fg_color="black")
     RAMbtn.place(x=175, y=10)
     STRbtn = ctk.CTkButton(root, text="STR", command=lambda: root_frame_delete("STR"), height=35, width=150, fg_color="black")
     STRbtn.place(x=10, y=90)
 
-    #RAM and CPU Progress Bars
-
-    CPUbar.place(x=35, y=55)
-    RAMbar.place(x=200, y=55)
-    STRbar.place(x=35, y=145)
-
     set_value()
 
-
+# Completes what's in the root_frame_create function
 root_frame_create()
 
+# Creates the Window
 root.mainloop()
