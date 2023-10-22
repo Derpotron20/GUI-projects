@@ -118,7 +118,6 @@ def STR_frame_create():
 
     STRinfo_check = True
 
-    STRinfo = ctk.CTkLabel(root, text="")
     STRinfo.place(x=80, y=60)
 
     backbtn3 = ctk.CTkButton(root, text="Back", font=('Arial', 10), command=STR_frame_delete, height=24, width=25, fg_color="black")
@@ -142,7 +141,6 @@ def STR_frame_create():
 
 #Opening the RAM seperate window
 def openRAMWindow():
-
     newWindow = ctk.CTkToplevel(root)
     newWindow.title("RAM Info")
     newWindow.geometry("300x200")
@@ -153,7 +151,6 @@ def openRAMWindow():
 
     RAMinfo_check = True
 
-    RAMinfo = ctk.CTkLabel(newWindow, text="")
     RAMinfo.place(x=80, y=60)
 
     RAMbar = ctk.CTkProgressBar(newWindow, width=100, orientation="horizontal")
@@ -173,7 +170,6 @@ def openSTRwindow():
 
     STRinfo_check = True
 
-    STRinfo = ctk.CTkLabel(newWindow, text="")
     STRinfo.place(x=80, y=60)
 
     STRbar = ctk.CTkProgressBar(newWindow, width=100, orientation="horizontal")
