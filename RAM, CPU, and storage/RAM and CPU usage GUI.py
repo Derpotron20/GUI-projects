@@ -37,22 +37,22 @@ def set_value():
     # Gains access to the RAM and storage information label, and if it needs to be displayed
     global RAMinfo, RAMinfo_check, STRinfo, STRinfo_check
 
-    # Defines what will be shown for storage
-    total_GB = round((psutil.disk_usage('/')[0]/1000000000), 2)
-    used_GB = round((psutil.disk_usage('/')[1]/1000000000), 2)
-    free_GB = round((psutil.disk_usage('/')[2]/1000000000), 2)
 
-    # Defines what will be shown for RAM
-    total_gb = round((psutil.virtual_memory()[0]/1000000000), 2)
-    available_gb = round((psutil.virtual_memory()[1]/1000000000), 2)
-    used_gb = round((psutil.virtual_memory()[3]/1000000000), 2)
-    free_gb = round((psutil.virtual_memory()[4]/1000000000), 2)
     # Changes what is said by the RAM information label if it needs to
     if RAMinfo_check == True:
+        # Defines what will be shown for RAM
+        total_gb = round((psutil.virtual_memory()[0]/1000000000), 2)
+        available_gb = round((psutil.virtual_memory()[1]/1000000000), 2)
+        used_gb = round((psutil.virtual_memory()[3]/1000000000), 2)
+        free_gb = round((psutil.virtual_memory()[4]/1000000000), 2)
         RAMinfo.configure(text=f"RAM Total (GB): {total_gb}\nRAM Available (GB) {available_gb}\nRAM Used (GB) {used_gb}\nRAM Free (GB) {free_gb}")
     
     # Changes what is said by the storage information label if it needs to
     elif STRinfo_check == True:
+        # Defines what will be shown for storage
+        total_GB = round((psutil.disk_usage('/')[0]/1000000000), 2)
+        used_GB = round((psutil.disk_usage('/')[1]/1000000000), 2)
+        free_GB = round((psutil.disk_usage('/')[2]/1000000000), 2)
         STRinfo.configure(text=f"STR Total (GB): {total_GB}\nSTR Used (GB) {used_GB}\nSTR Free (GB) {free_GB}")
     
     # Re-executes this function every 0.5 seconds
