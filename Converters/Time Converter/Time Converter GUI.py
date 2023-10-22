@@ -16,7 +16,7 @@ def msg_shrtcut(event):
     elif event.keysym == "Return" and choice.get() == 3:
         hours_minutes()
     elif event.keysym == "Return" and choice.get() == 4:
-        minutes_seconds()
+        hours_minutes()
 
 def weeks_days():
     global rev
@@ -75,14 +75,6 @@ def hours_minutes():
         elif num > 0:
             answer.config(text=f'{counter} hours and {num} minutes')
 
-def minutes_seconds():
-    global rev
-    counter = 0
-    num = int(input.get())
-    # Minutes into Seconds
-    if rev.get() == 0:
-        num = num * 60
-        answer.config(text=f'{num} minutes')
         
     # Seconds into Minutes
     elif rev.get() == 1:
