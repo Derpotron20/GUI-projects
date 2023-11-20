@@ -7,13 +7,11 @@ root.geometry("275x100")
 answer_C = None
 answer_F = None
 def show_message_C():
-    global answer_C
     dgs_C = int(entry.get())
     answer_C = round(((dgs_C * 9/5) + 32), 1)
     label.config(text=answer_C)
 
 def show_message_F():
-    global answer_F
     dgs_F = int(entry.get())
     answer_F = round(((dgs_F - 32) * 5/9), 1)
     label.config(text=answer_F)

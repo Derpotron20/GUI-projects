@@ -8,7 +8,6 @@ root.geometry("510x130")
 
 
 def msg_shrtcut(event):
-    print(event)
     if event.keysym == "Return" and choice.get() == 1:
         weeks_days()
     elif event.keysym == "Return" and choice.get() == 2:
