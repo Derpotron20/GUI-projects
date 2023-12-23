@@ -10,9 +10,6 @@ CPUbar = ctk.CTkProgressBar(root, width=100, orientation="horizontal")
 RAMbar = ctk.CTkProgressBar(root, width=100, orientation="horizontal")
 STRbar = ctk.CTkProgressBar(root, width=100, orientation="horizontal")
 
-# Sets what the labels are initially, so that they can be changed later more easily
-RAMinfo = ctk.CTkLabel(root, text="")
-STRinfo = ctk.CTkLabel(root, text="")
 # Two variables for chcking if we should show data about RAM and storage
 RAMinfo_check = False
 STRinfo_check = False
@@ -170,7 +167,7 @@ def STR_frame_delete():
 # Function to allow repeatedly creating the home page
 def root_frame_create():
     # Allows other functions to access everything inside this function
-    global CPUbar, RAMbar, STRbar, CPUlbl, RAMbtn, STRbtn
+    global CPUlbl, RAMbtn, STRbtn
 
     # Change the window title
     root.title("Activity Monitor")

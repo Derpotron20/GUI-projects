@@ -56,8 +56,6 @@ def change_monster_health():
     if name not in monsters:
         raise ValueError("Monster does not exist")
     old_amount = monsters[name][2]
-    if new_amount > old_amount:
-        raise ValueError("Monster killed, please get rid of monster")
     monsters[name][2] = new_amount
     update_summary()
 
